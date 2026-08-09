@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Republic of the Golden Horseshoe - Map Creator</title>
+    <title>49th Parallel - Global Map Creator</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -14,7 +14,21 @@
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         #map { height: 100vh; width: 100%; }
         
-        /* Custom styling for the new country label */
+        /* Custom styling for the parallel label */
+        .parallel-label {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid #d9534f;
+            color: #d9534f;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            text-align: center;
+            white-space: nowrap;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* Custom styling for the drawn area label */
         .country-label {
             background: rgba(255, 215, 0, 0.9); /* Golden background */
             border: 2px solid #8B4513;
@@ -32,7 +46,7 @@
         .info-box {
             position: absolute;
             top: 10px;
-            right: 10px;
+            left: 10px;
             z-index: 1000;
             background: white;
             padding: 15px;
@@ -42,22 +56,18 @@
         }
         .info-box h2 { margin-top: 0; font-size: 18px; color: #333; }
         .info-box p { font-size: 14px; color: #666; }
-        .btn-reset {
-            background: #d9534f;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-            width: 100%;
-        }
-        .btn-reset:hover { background: #c9302c; }
     </style>
 </head>
 <body>
 
     <div id="map"></div>
+
+    <!-- Info Box -->
+    <div class="info-box">
+        <h2>49th Parallel Creator</h2>
+        <p>Draw your territory below the 49th Parallel.</p>
+        <p><strong>Constraint:</strong> The red dashed line represents the global 49th parallel north.</p>
+    </div>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -65,9 +75,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
     <script>
-        // 1. Initialize the map centered on the Golden Horseshoe (Southern Ontario)
-        // Coordinates approx: 43.65° N, 79.38° W (Toronto area)
-        const map = L.map('map').setView([43.6532, -79.3832], 8);
+        // 1. Initialize the map centered on the 49th Parallel, zoomed out to show the whole world
+        // Coordinates: 49.0° N, 0° E (Prime Meridian intersection for global view)
+        // Zoom level 3 shows the entire line across the globe
+        const map = L.map('map').setView([49.0, 0], 3);
 
         // 2. Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -75,23 +86,26 @@
         }).addTo(map);
 
         // 3. Draw the 49th Parallel (Visual Guide)
-        // This line runs across the top of the map to remind the user of the constraint
+        // This line runs across the entire map horizontally
         const parallel49 = L.polyline([
-            [49.0, -125.0], // West Coast approx
-            [49.0, -50.0]   // East Coast approx
+            [49.0, -180.0], // International Date Line (West)
+            [49.0, 180.0]   // International Date Line (East)
         ], {
-            color: 'red',
+            color: '#d9534f', // Red
             dashArray: '10, 10',
-            weight: 2,
-            opacity: 0.6
+            weight: 3,
+            opacity: 0.8
         }).addTo(map);
         
-        L.marker([49.0, -90.0], {
+        // Add a label to the line near the center (Prime Meridian)
+        L.marker([49.0, 0], {
             icon: L.divIcon({
-                className: 'country-label',
-                html: '49th Parallel (Border Limit)',
-                iconSize: [150, 30]
-            })
+                className: 'parallel-label',
+                html: '49th Parallel North',
+                iconSize: [120, 30],
+                iconAnchor: [60, 15]
+            }),
+            zIndexOffset: 1000
         }).addTo(map);
 
         // 4. Initialize FeatureGroup to store editable layers
@@ -128,14 +142,14 @@
         map.on(L.Draw.Event.CREATED, function (event) {
             const layer = event.layer;
             
-            // Add a popup with the country name
+            // Add a popup with the area details
             const area = Math.round(layer.getArea() / 1000000); // Convert to km²
             
             const popupContent = `
                 <div style="text-align:center;">
-                    <h3 style="margin:5px 0; color:#8B4513;">Republic of the Golden Horseshoe</h3>
+                    <h3 style="margin:5px 0; color:#8B4513;">New Territory</h3>
                     <p style="margin:0;">Area: <strong>${area} km²</strong></p>
-                    <p style="font-size:12px; color:#666;">Officially Recognized (Self-Declared)</p>
+                    <p style="font-size:12px; color:#666;">Declared below the 49th Parallel</p>
                 </div>
             `;
             
@@ -146,14 +160,14 @@
             const label = L.marker(center, {
                 icon: L.divIcon({
                     className: 'country-label',
-                    html: 'Republic of the<br>Golden Horseshoe',
-                    iconSize: [140, 40],
-                    iconAnchor: [70, 20]
+                    html: 'Territory<br>' + area + ' km²',
+                    iconSize: [100, 40],
+                    iconAnchor: [50, 20]
                 }),
                 zIndexOffset: 1000
             });
             
-            // Group the polygon and the label so they can be managed together if needed
+            // Group the polygon and the label
             const group = L.featureGroup([layer, label]);
             drawnItems.addLayer(group);
         });

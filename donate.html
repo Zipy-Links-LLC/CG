@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Open Mapping & Ukraine - Donate</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #d9534f;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h2 { color: #8B4513; margin-top: 30px; }
+        .mission-box {
+            background: #eef9ff;
+            border: 1px solid #bce8f1;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .mission-box h3 { margin-top: 0; color: #31708f; }
+        
+        /* Ukraine Section Styling */
+        .ukraine-section {
+            background: #fff8e1;
+            border: 1px solid #ffe0b2;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        .ukraine-section h3 { 
+            margin-top: 0; 
+            color: #0057B8; /* Ukraine Blue */
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ukraine-flag {
+            font-size: 1.5em;
+        }
+        
+        /* Disabled Button Styling */
+        .btn-donate {
+            display: inline-block;
+            background-color: #cccccc;
+            color: #666666;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 15px 40px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: not-allowed;
+            margin-top: 20px;
+            border: 2px solid #bbbbbb;
+            opacity: 0.7;
+        }
+        .btn-donate:hover {
+            background-color: #cccccc;
+            color: #666666;
+        }
+        .status-msg {
+            color: #856404;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 14px;
+            display: inline-block;
+        }
+        .alternative-link {
+            display: block;
+            margin-top: 30px;
+            color: #0275d8;
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            text-decoration: none;
+            color: white;
+            background: #333;
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        .back-link:hover { background: #555; }
+        ul { text-align: left; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Support Open Mapping & Ukraine</h1>
+        
+        <p>Your contribution helps keep the world's map free, open, and editable by anyone.</p>
+
+        <div class="mission-box">
+            <h3>Where your money goes</h3>
+            <p>100% of the funds raised through this project are dedicated to the <strong>OpenStreetMap Foundation (OSMF)</strong>. Your donation directly supports:</p>
+            <ul>
+                <li>Server infrastructure and bandwidth costs.</li>
+                <li>Development of core mapping tools.</li>
+                <li>Legal protection for the open data license.</li>
+                <li>Community events and mapping parties.</li>
+            </ul>
+        </div>
+
+        <!-- Ukraine & Leaflet Section -->
+        <div class="ukraine-section">
+            <h3><span class="ukraine-flag">🇺🇦</span> The Heart of Leaflet is in Ukraine</h3>
+            <p>The mapping library powering this project, <strong>Leaflet</strong>, was created in 2010 by <strong>Volodymyr Agafonkin</strong>, a Ukrainian citizen living in Kyiv. Since the full-scale Russian invasion in 2022, the project has been vocal about the war's impact on its creator and community.</p>
+            <p>Volodymyr and the Leaflet community strongly recommend supporting the <strong>"Come Back Alive"</strong> charity (<em>Povernys Zhyvym</em>). This organization is critical in supplying technology, training, and equipment to the Armed Forces of Ukraine to save lives on the front lines.</p>
+            <p><em>"If an appeal to humanity doesn't work for you, I'll appeal to your egoism: the future of Ukrainian citizens is the future of Leaflet."</em> — Volodymyr Agafonkin</p>
+        </div>
+
+        <!-- Disabled Donation Button -->
+        <button class="btn-donate" disabled>
+            Donate to OSMF & Ukraine
+        </button>
+        
+        <div class="status-msg">
+            ⚠️ <strong>Payment System Pending:</strong> We are currently setting up our direct payment gateway. This button will be activated soon.
+        </div>
+
+        <p style="margin-top: 20px; font-size: 14px; color: #666;">
+            Want to donate immediately? You can contribute directly to the foundations via their official secure portals:
+        </p>
+
+        <div style="text-align: left; margin-top: 20px; background: #fafafa; padding: 15px; border-radius: 5px;">
+            <p style="margin-top:0;"><strong>1. For OpenStreetMap Infrastructure:</strong><br>
+            <a href="https://supporting.openstreetmap.org/donate/" target="_blank">Visit the OpenStreetMap Foundation Donation Page &rarr;</a></p>
+            
+            <p><strong>2. For Ukraine (Recommended by Leaflet):</strong><br>
+            <a href="https://savelife.in.ua/en/donate-en/" target="_blank">Donate to "Come Back Alive" Foundation &rarr;</a></p>
+        </div>
+
+        <br>
+        <a href="index.html" class="back-link">← Return to Map</a>
+    </div>
+
+</body>
+</html>
