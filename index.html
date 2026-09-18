@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>49th Parallel - Global Map Creator</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Leaflet Draw CSS -->
@@ -75,12 +73,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
 
     <script>
-        // 1. Initialize the map centered on the 49th Parallel, zoomed out to show the whole world
-        // Coordinates: 49.0° N, 0° E (Prime Meridian intersection for global view)
-        // Zoom level 3 shows the entire line across the globe
+        
         const map = L.map('map').setView([49.0, 0], 3);
 
-        // 2. Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
@@ -101,7 +96,7 @@
         L.marker([49.0, 0], {
             icon: L.divIcon({
                 className: 'parallel-label',
-                html: '49th Parallel North',
+                html: '49N',
                 iconSize: [120, 30],
                 iconAnchor: [60, 15]
             }),
@@ -111,66 +106,6 @@
         // 4. Initialize FeatureGroup to store editable layers
         const drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
-
-        // 5. Initialize the Draw Control
-        const drawControl = new L.Control.Draw({
-            edit: {
-                featureGroup: drawnItems,
-                remove: true
-            },
-            draw: {
-                polygon: {
-                    allowIntersection: false,
-                    showArea: true,
-                    shapeOptions: {
-                        color: '#FFD700', // Gold color
-                        fillColor: '#FFD700',
-                        fillOpacity: 0.6,
-                        weight: 3
-                    }
-                },
-                polyline: false,
-                circle: false,
-                rectangle: false,
-                marker: false,
-                circlemarker: false
-            }
-        });
-        map.addControl(drawControl);
-
-        // 6. Event: When a shape is created
-        map.on(L.Draw.Event.CREATED, function (event) {
-            const layer = event.layer;
-            
-            // Add a popup with the area details
-            const area = Math.round(layer.getArea() / 1000000); // Convert to km²
-            
-            const popupContent = `
-                <div style="text-align:center;">
-                    <h3 style="margin:5px 0; color:#8B4513;">New Territory</h3>
-                    <p style="margin:0;">Area: <strong>${area} km²</strong></p>
-                    <p style="font-size:12px; color:#666;">Declared below the 49th Parallel</p>
-                </div>
-            `;
-            
-            layer.bindPopup(popupContent);
-            
-            // Add a permanent label in the center of the polygon
-            const center = layer.getBounds().getCenter();
-            const label = L.marker(center, {
-                icon: L.divIcon({
-                    className: 'country-label',
-                    html: 'Territory<br>' + area + ' km²',
-                    iconSize: [100, 40],
-                    iconAnchor: [50, 20]
-                }),
-                zIndexOffset: 1000
-            });
-            
-            // Group the polygon and the label
-            const group = L.featureGroup([layer, label]);
-            drawnItems.addLayer(group);
-        });
     </script>
 </body>
 </html>
