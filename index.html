@@ -7,65 +7,10 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Leaflet Draw CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
-
-    <style>
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        #map { height: 100vh; width: 100%; }
-        
-        /* Custom styling for the parallel label */
-        .parallel-label {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #d9534f;
-            color: #d9534f;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 14px;
-            text-align: center;
-            white-space: nowrap;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        /* Custom styling for the drawn area label */
-        .country-label {
-            background: rgba(255, 215, 0, 0.9); /* Golden background */
-            border: 2px solid #8B4513;
-            color: #5c3a04;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 14px;
-            text-align: center;
-            white-space: nowrap;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        /* Info box styling */
-        .info-box {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 1000;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            max-width: 300px;
-        }
-        .info-box h2 { margin-top: 0; font-size: 18px; color: #333; }
-        .info-box p { font-size: 14px; color: #666; }
-    </style>
 </head>
 <body>
 
     <div id="map"></div>
-
-    <!-- Info Box -->
-    <div class="info-box">
-        <h2>49th Parallel Creator</h2>
-        <p>Draw your territory below the 49th Parallel.</p>
-        <p><strong>Constraint:</strong> The red dashed line represents the global 49th parallel north.</p>
-    </div>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -80,19 +25,16 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // 3. Draw the 49th Parallel (Visual Guide)
-        // This line runs across the entire map horizontally
         const parallel49 = L.polyline([
-            [49.0, -180.0], // International Date Line (West)
-            [49.0, 180.0]   // International Date Line (East)
+            [49.0, -180.0], // (West)
+            [49.0, 180.0]   // (East)
         ], {
-            color: '#d9534f', // Red
+            color: '#d9534f',
             dashArray: '10, 10',
             weight: 3,
             opacity: 0.8
         }).addTo(map);
         
-        // Add a label to the line near the center (Prime Meridian)
         L.marker([49.0, 0], {
             icon: L.divIcon({
                 className: 'parallel-label',
@@ -103,7 +45,6 @@
             zIndexOffset: 1000
         }).addTo(map);
 
-        // 4. Initialize FeatureGroup to store editable layers
         const drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
     </script>
